@@ -1,3 +1,3 @@
 #import "template/template.typ"
 
-= Entwurf
+#include "diagrams/Entwurfsklassendiagramm/entwurfsklassendiagramm.typ"
