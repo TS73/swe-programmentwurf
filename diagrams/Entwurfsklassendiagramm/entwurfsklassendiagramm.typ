@@ -1,9 +1,8 @@
 = Entwurfs-Klassendiagramm
-// #figure(
-//   image("Klassendiagramm.svg"),
-//   caption: "Entwurfs-Klassendiagramm",
-// )<fig:analyse-klassendiagramm>
-// Es wurden verschiedene Analysemuster eingesetzt:
+#figure(
+  image("Entwurfsklassendiagramm.svg", width: 110%),
+  caption: "Entwurfs-Klassendiagramm",
+)<fig:analyse-klassendiagramm>
 
 
 // In der Modellierung wurde berücksichtigt, dass Kunde und Lieferant beide von Geschäftspartner erben, jedoch besitzt ein Kunde sowohl Rechungs- als auch Lieferadresse, Lieferanten jedoch nur eine Rechnungsadresse, da an diese nichts geliefert wird. Daher wurde die Entscheidung getroffen, die Adress-Felder aufzuteilen. Daher besitzt nun ein Geschäftspartner eine Rechnungsadresse und nur der Kunde eine Lieferadresse.
