@@ -1,9 +1,17 @@
 = Entwurfs-Klassendiagramm
-#figure(
-  image("Entwurfsklassendiagramm.svg", width: 110%),
-  caption: "Entwurfs-Klassendiagramm",
-)<fig:analyse-klassendiagramm>
+// #figure(
+//   image("Entwurfsklassendiagramm.svg", width: 110%),
+//   caption: "Entwurfs-Klassendiagramm",
+// )<fig:analyse-klassendiagramm>
 
+#figure(
+  image("Entwurfsklassendiagramm1.svg", width: 110%),
+  caption: "Entwurfs-Klassendiagramm - Teil 1",
+)<fig:entwurfs-klassendiagramm-1>
+#figure(
+  image("Entwurfsklassendiagramm2.svg", width: 110%),
+  caption: "Entwurfs-Klassendiagramm - Teil 2",
+)<fig:entwurfs-klassendiagramm-2>
 
 // In der Modellierung wurde berücksichtigt, dass Kunde und Lieferant beide von Geschäftspartner erben, jedoch besitzt ein Kunde sowohl Rechungs- als auch Lieferadresse, Lieferanten jedoch nur eine Rechnungsadresse, da an diese nichts geliefert wird. Daher wurde die Entscheidung getroffen, die Adress-Felder aufzuteilen. Daher besitzt nun ein Geschäftspartner eine Rechnungsadresse und nur der Kunde eine Lieferadresse.
 
