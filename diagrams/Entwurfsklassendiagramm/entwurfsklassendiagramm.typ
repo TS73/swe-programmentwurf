@@ -1,42 +1,37 @@
 = Entwurfs-Klassendiagramm
-// #figure(
-//   image("Entwurfsklassendiagramm.svg", width: 110%),
-//   caption: "Entwurfs-Klassendiagramm",
-// )<fig:analyse-klassendiagramm>
 
 #figure(
   image("Entwurfsklassendiagramm1.svg", width: 110%),
   caption: "Entwurfs-Klassendiagramm - Teil 1",
 )<fig:entwurfs-klassendiagramm-1>
+
+Auf Basis des Analyse-Klassendiagramms wurde das Modelpackage des Entwurfs-Klassendiagramms erstellt. Dieses Diagramm hat einige Änderungen im Vergleich zum Analyse-Klassendiagramm erfahren, um die Ideen und Konzepte der Analyse zu konkretisieren und die Struktur des Modells zu optimieren.
+
+Zu den Änderungen gehören, aus der Zugriffsrechtsart ein Enum der beiden Zugriffsrechtsarten zu machen. Bei den Rollen wurde auch eine Zugriffsmethode eingeführt, die es ermöglicht, den Zugriff auf bestimmte Objekte zu überprüfen.
+
+Die Klasse Geschäftspartner wurde abstrakt gemacht, da diese nur ein Wrapper für Kunden und Lieferanten ist. Die Klasse Privatkunde wurde entfernt, da sie nichts zum Kunden hinzufügt.
+
+Ähnlich wurde auch der Auftrag abstrakt gemacht, da jeder Auftrag ein Kundenauftrag oder ein Eigenauftrag ist. Der Auftrag hat außerdem ein Status Enum bekommen, mit dem die verschiedenen Status eines Auftrags (angelegt, in Bearbeitung, abgeschlossen) abgebildet werden können.
+
+Die Postenklasse wurde in Dienstleistungs- und Produktposten unterteilt, da die bisherige Implementation auf kein Preisfeld für Posten ohne Produkt hatte. Die Prostenklasse ist abstrakt und kann über die kosten Methode, die Kostenberechnung für die Postenarten abstrahieren.
+
+
 #figure(
   image("Entwurfsklassendiagramm2.svg", width: 110%),
   caption: "Entwurfs-Klassendiagramm - Teil 2",
 )<fig:entwurfs-klassendiagramm-2>
 
-// In der Modellierung wurde berücksichtigt, dass Kunde und Lieferant beide von Geschäftspartner erben, jedoch besitzt ein Kunde sowohl Rechungs- als auch Lieferadresse, Lieferanten jedoch nur eine Rechnungsadresse, da an diese nichts geliefert wird. Daher wurde die Entscheidung getroffen, die Adress-Felder aufzuteilen. Daher besitzt nun ein Geschäftspartner eine Rechnungsadresse und nur der Kunde eine Lieferadresse.
 
-// Des Weiteren haben wir das Muster „Rollen“ eingesetzt. So kann eine Person verschiedene Rollen wie Mitarbeiter oder Geschäftspartner einnehmen. Diese Rollen werden durch spezialisierte Unterklassen abgebildet, während gemeinsame Eigenschaften wie Name oder Kontaktdaten in der Oberklasse bleiben. Diese Struktur erlaubt es, eine Person flexibel und gleichzeitig konsistent im System zu repräsentieren.
+Zusätzlich zum Modelpackage wurde noch fünf weiter Packages erstellt, die die verschiedenen Aspekte des Entwurfs-Klassendiagramms abbilden. Diese sind:
+- ImportExport
+- Datenbank
+- Views
+- Controller
+- Events
 
-// Um die semantische Zusmengehörigkeit hervorzuheben, wurden die Klassen mit der gleichen Farbe (orange) hinterlegt.
+Das ImportExport-Packages enthält Funktionalitäten, um die verschiedene Im- und Exporte des Systems zu ermöglichen. Für das Standard-CSV-Format wurden Interfaces erstellt, die von den Modelklassen implemntiert werden. PDFs und Drucken werden über den PDF-Exporter und den PDF-Printer realisiert. Um zu viele statische Methoden zu vermeiden, werden diese als Singletons implementiert.
 
-// Ein Auftrag kann entweder der Auftrag eines Kunden oder ein Eigenauftag sein. Eigenaufträge referenzieren immer einen Kundenauftrag. Da sie sich abgesehn davon jedoch nicht in den Attributen unterscheiden, wurde entschieden, dass sie von einer gemeinsamen Oberklasse „Auftrag“ erben.
+Das Datenbank-Package enthält eine abstrakte, generische EntityManager-Klasse. Für jede Modelklasse wird hier eine konkrete EntityManager-Klasse erstellt, die vom abstrakten EntityManager erbt und die Datenbankzugriffe managed. Im Diagramm sind exemplarisch nur der Auftrags- und MitarbeiterManager eingeziechnet. Der EntityManager hat außerdem eine EntityFactory, die das Erstellen der verschiedenen Modelobjekte übernimmt. Diese Factory ist auch als Singleton implementiert.
+In der Implementierung wird dieses Package wahrscheinlich noch durch JPA Annotationen ergänzt.
 
-// Die unterschiedlichen Aufträge wurden in Dunkelgrün markiert, um ihre semantische Zugehörigkeit erkennbar zu machen.
-
-// Darüber hinaus wurde bei der Modellierung von Lieferdaten das Prinzip der „Historie“ in Betracht gezogen. Einem Kundenauftrag können mehrere Angebote zugeordnet werden. Es muss jedoch später berücksichtigt werden, dass nur das letzte Angebot zum jeweiligen Auftrag bindend ist und alle älteren jeweils nur der Protokollierung aller Angebote dienen.
-
-// Ursprünglich war geplant, zwischen Produkt und Lieferant eine Koordinationsklasse Lieferinformationen zu modellieren, um Lieferdetails wie Termine und Bedingungen abzubilden. In der finalen Analyse wurde jedoch darauf verzichtet und stattdessen eine direkte 1:n-Beziehung zwischen Produkt und Lieferant eingeführt. Die Klasse Liefertermin wurde separat modelliert, enthält aber keine Vermittlungsfunktion. Damit wurde zugunsten einer einfacheren Struktur auf das Analysemuster des „Koordinators“ verzichtet.
-
-// Ein weiteres eingesetztes Muster ist das der „Liste“, das sich in der Modellierung von Angebot und Angebotsposition sowie Rechnung und Rechnungsposten wiederfindet. Diese Beziehungen stellen klassische Listenstrukturen dar, bei denen ein übergeordnetes Objekt (das Angebot) mehrere gleichartige Unterobjekte (Positionen) umfasst.
-
-// Diese erscheinen in olivegrün, was ihre inhaltliche Zusammengehörigkeit unterstreicht.
-
-// Ein zentrales Beispiel ist die Trennung zwischen Werkzeugbeschreibung und Werkzeugexemplar, die dem Analysemuster „Exemplartyp“ folgt. Hierbei werden allgemeine, für alle Exemplare eines Werkzeugs identische Informationen wie Name, Hersteller und Wartungsanforderungen in der Beschreibungsklasse erfasst. Individuelle Merkmale wie Seriennummer, Zustand oder Baujahr werden hingegen dem konkreten Exemplar zugewiesen.
-
-// Zur Hervorhebung ihrer semantischen Verbindung sind diese in pink dargestellt.
-
-// Folgende Designentscheidungen haben wir in Absprache mit dem Kunden getroffen:
-// - Ein Eigenauftrag muss immer im Kontext eines Kundenauftrags erfolgen.
-// - Jeder Kundenauftrag muss (mindestens) ein Angebot haben.
-// - Es gibt eine Datei-Klasse, sodass unterschiedliche Bildformate verwendet werden können. Die Bilder werden dann jeweils in einer externen App außerhalb unserer Applikation geöffnet.
-// - Da wir in Absprache mit dem Kunden erkannt haben, dass die beiden Klassen "Material" und "Produkt" (s. Tabellen in der Analyse) äquivalent sind, haben wir diese beiden zu "Produkt" vereinigt.
+Im Controller- und Event-Package sind exemplarisch verschiedene Events und Controller-Klassen eingeziechnet. Die Controller haben Zugriff auf Model- und UI-Klassen und die Events, die sie verwalten. Genauere Verfeinerungen hierzu kommen in der UML-UI Modelierung.
