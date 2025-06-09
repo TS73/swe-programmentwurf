@@ -14,11 +14,11 @@ Hierbei ist zu beachten, dass  erst nach der Überprüfung aller nötigen Materi
 
 Ebenfalls wird bei nicht Erhaltung einer Bestellbestätigung überprüft, wodurch ein Fehler bei der Bestellung zustande gekommen ist. Da bei einer passenden Eingabe der nötigen Daten nur ein Fehler von Seite der Lieferanten entstehen kann, muss der entsprechende Lieferant geändert und die Bestellung erneut durchgeführt werden. 
 
-Im Pseudocode sind zusätzlich die Prozesse "Lieferant anlegen" und "Rechnung archivieren" verfeinert dargestellt, um eine mögliche Detaillierung der Prozesse abzubilden.
+Im Pseudocode sind zusätzlich die Prozesse "Lieferant kontaktieren" und "Rechnung archivieren" verfeinert dargestellt, um eine mögliche Detaillierung der Prozesse abzubilden.
 
 ==== Pseudocode
 
-Die Aktion "Materialbestellungen für obigen Auftrag durchführen“ von der Bestandsprüfung der für einen Auftrag nötigen Materialien bis zur Verwaltung der Rechnung
+Im folgenden wird die Aktion "Materialbestellungen für obigen Auftrag durchführen“ von der Bestandsprüfung der für einen Auftrag nötigen Materialien bis zur Verwaltung der Rechnung in Form von Pseudocode realisiert.
 ```
 ANFANG Materialbestellung
   Kundenauftrag auswählen
@@ -46,7 +46,8 @@ ANFANG Materialbestellung
       ENDE-WENN
   ENDE-FÜR-ALLE
   Alle offenen Eigenaufträge absenden
-  WENN Bestellbestätigung erhalten -> Rechnung erhalten //Rechnung als Output der Bestellbestätigung
+  WENN Bestellbestätigung erhalten -> Rechnung erhalten //Rechnung als Output 
+  der Bestellbestätigung
       Rechnung archivieren (Rechnung) //Rechnung als Input für das Archivieren der Rechnung
   SONST
       Fehler prüfen
@@ -54,26 +55,6 @@ ANFANG Materialbestellung
   ENDE-WENN
 ENDE Materialbestellung
 ```
-```
-ANFANG Rechnung archivieren (Rechnung)
-  WENN Rechung in Papierformat
-      Rechnung einscannen
-  WENN Rechnung nicht in PDF Format
-      Rechnung in PDF konvertieren
-  ENDE WENN
-  Rechnung dem Eigenauftrag der Bestellung anhängen
-ENDE Rechnung archivieren (Rechnung)
-```
-
-=== Verfeinerung: Lieferant anlegen
-#image("Aktivitätsdiagramm-LieferantAnlegen.svg")
-
-Zur Veranschaulichung einer Verfeinerung in einem Aktivitätsdiagramm wurde der Prozess des Anlegens eines neuen Lieferantens gewählt. 
-
-Hierbei wird der Lieferant zunächst mit allen nötigen Attributen und Referenzen erstellt.
-Von diesem werden anschließend alle Produkte der Bestelliste hinzugefügt, wobei dieser potentiell für das jeweilige Produkt als Hauptlieferant gekennzeichnet werden kann.
-
-==== Pseudocode
 ```
 ANFANG Lieferant kontaktieren
   WENN Mailadresse als Kontaktmöglichkeit vorhanden
@@ -108,4 +89,62 @@ ANFANG Lieferant kontaktieren
       Neuen Lieferanten suchen //keine Kontaktdaten vorhanden
   ENDE WENN
 ENDE Lieferant kontaktieren
+```
+```
+ANFANG Rechnung archivieren (Rechnung)
+  WENN Rechung in Papierformat
+      Rechnung einscannen
+  WENN Rechnung nicht in PDF Format
+      Rechnung in PDF konvertieren
+  ENDE WENN
+  Rechnung dem Eigenauftrag der Bestellung anhängen
+ENDE Rechnung archivieren (Rechnung)
+```
+
+=== Verfeinerung: Lieferant anlegen
+#image("Aktivitätsdiagramm-LieferantAnlegen.svg")
+
+Zur Veranschaulichung einer Verfeinerung in einem Aktivitätsdiagramm wurde exemplarisch der Prozess des Anlegens eines neuen Lieferantens gewählt. 
+
+Dieser beginnt mit dem Öffnen des Lieferantenmenüs sowie des zugehörigen Editors. 
+Anschließend wird ein neuer Lieferant angelegt, dem schrittweise alle nötigen Attribute zugewiesen werden. 
+Danach erfolgt die Erstellung einer Rechnungsadresse. 
+Nach dem Setzen der zugehörigen Attribute wird diese dem Lieferanten zugewiesen.
+
+Im nächsten Schritt wird eine Hauptkontaktperson einschließlich der zugehörigen Attribute angelegt. Diese wird dem Lieferanten zugewiesen, bevor anschließend ein Vertreter erstellt wird.
+
+Daraufhin werden die Produkte angelegt, die zum Lieferanten gehören. Für jedes Produkt aus der vorhandenen Bestellliste wird ein neues Produkt erstellt und mit den nötigen Informationen wie Produkt-ID, Name und Beschreibung versehen. Anschließend wird geprüft, ob der Lieferant als Hauptlieferant für das Produkt eingetragen werden soll. Wenn das der Fall ist, wird die Verbindung entsprechend hergestellt.
+
+/* Hierbei wird der Lieferant zunächst mit allen nötigen Attributen und Referenzen erstellt.
+Von diesem werden anschließend alle Produkte der Bestelliste hinzugefügt, wobei dieser potentiell für das jeweilige Produkt als Hauptlieferant gekennzeichnet werden kann. */
+
+==== Pseudocode
+
+Im folgenden wird die Aktion "Lieferant anlegen“ von der Erstellung eines Lieferantenprofils bis zur Übertragung seiner Produkte in Form von Pseudocode realisiert.
+```
+ANFANG Lieferant anlegen
+    Öffne Lieferantenmenü
+    Öffne Lieferanten-Editor
+
+    Neuen Lieferanten hinzufügen
+
+    Attribute setzen (Name, Steuernummer)
+    Rechnungsadresse erstellen 
+    Attribute setzen (Postleitzahl, Stadt, Straße, Hausnummer)
+    Referenz auf Rechnungsadresse hinzufügen
+    Hauptperson erstellen
+    Attribute setzen (Anrede, Vorname, Nachname, Telefonnummer, E-Mail-
+    Adresse)
+    Referenz auf Hauptkontakt hinzufügen
+    Vertreter hinzufügen
+
+    FÜR-ALLE Produkte eines Lieferanten
+        Produkt der Bestellliste hinzufügen 
+        Attribute setzen (ProduktID, Name, Beschreibung, Hersteller, 
+        Stückpreis)
+        WENN Hauptlieferant des Produktes
+            Produkt mit Lieferant als Hauptlieferant verknüpfen
+        ENDE-WENN
+    ENDE-FÜR-ALLE
+ENDE Lieferant anlegen
 ```
