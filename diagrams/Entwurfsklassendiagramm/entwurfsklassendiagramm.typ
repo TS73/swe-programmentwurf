@@ -22,7 +22,7 @@ Die Klasse Posten wurde in Dienstleistungs- und Produktposten unterteilt, da die
 )<fig:entwurfs-klassendiagramm-2>
 
 
-Zusätzlich zum Modelpackage wurden noch fünf weiter Packages erstellt, welche die verschiedenen Aspekte des Entwurfs-Klassendiagramms abbilden. 
+Zusätzlich zum Modelpackage wurden noch fünf weiter Packages erstellt, welche die verschiedenen Aspekte des Entwurfs-Klassendiagramms abbilden.
 
 Diese sind:
 - ImportExport
@@ -36,4 +36,6 @@ Das ImportExport-Package enthält die Funktionalitäten zur Umsetzung der versch
 Das Datenbank-Package enthält eine abstrakte, generische EntityManager-Klasse. Für jede Modellklasse wird hier eine konkrete EntityManager-Klasse erstellt, die vom abstrakten EntityManager Klasse erbt und die jeweiligen Datenbankzugriffe managed. Im Diagramm sind exemplarisch nur der Auftrags- und MitarbeiterManager dargestellt. Der EntityManager verwendet außerdem eine EntityFactory, die das Erstellen der verschiedenen Modelobjekte übernimmt. Diese Factory ist ebenfalls als Singleton implementiert.
 In der Implementierung wird dieses Package voraussichtlich durch JPA Annotationen ergänzt.
 
-Im Controller- und Event-Package sind exemplarisch verschiedene Event- und Controller-Klassen dargestellt. Die Controller haben Zugriff auf sowohl die Model- als auch die UI-Klassen sowie auf die Events, welche sie verwalten. Genauere Verfeinerungen hierzu erfolgen in der UML-UI Modelierung.
+Die Events und zugehörigen Event-Observer Interfaces sind im Events-Package zusammengefasst. Hier wird zwischen Update- und GUI-Events unterschieden. Die Events selber sind komplexe Enums, die die verschiedenen Ereignisse und Befehle im System abbilden.
+
+Im Controller Package sind exemplarisch verschiedene Controller-Klassen dargestellt. Die Controller implementieren mindestens ein Event-Observer Interface und haben Zugriff auf sowohl die Model- als auch die UI-Klassen, welche sie verwalten. Genauere Verfeinerungen hierzu erfolgen in der UML-UI Modelierung.
