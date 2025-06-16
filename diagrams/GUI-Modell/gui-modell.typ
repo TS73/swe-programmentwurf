@@ -10,6 +10,7 @@ Die GUI-Modellierung erfolgt hier nur exemplarisch für den Rechnungserstellungs
 )<fig:gui-aufbau>
 
 In dieser Abbildung ist der RechnungserstellungsView in die SWING-Bestandteile einer möglichen Realisierung in JAVA aufgeteilt worden.
+Die Farbgebung verdeutlicht dabei die Verschachtelung der einzelnen Elemente: Die äußerste Komponente ist schwarz dargestellt, darin enthaltene Komponenten erscheinen in Blau, deren Unterelemente in Orange und so weiter.
 Hierbei basiert das GUI zunächst auf einem JFrame, welches in vier JPanels aufgeteilt ist, die in einem BorderLayout arrangiert werden.
 
 Das obere Panel, welches nach "NORTH" gerichtet ist beinhaltet zum einen die bereits im GUI-Modell beschriebene Navigation, welche durch einen Navigations-Balken realisiert wird. Hierbei ist zu beachten, dass die eigene Komponente "NavBar" aufgrund ihrer rekursiven Struktur für die Übersichtlichkeit nicht weiter in einzelne SWING-Elemente aufgespalten wird.
